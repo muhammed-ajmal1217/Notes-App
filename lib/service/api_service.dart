@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:notetaker/model/model.dart';
 
@@ -40,10 +38,9 @@ class ApiSercice {
       throw Exception(e);
     }
   }
-  editNotes({NoteModel? value,required id,})async{
-    var editUrl = 'https://65618241dcd355c08323e66b.mockapi.io/notes/$id';
+  editNotes({required NoteModel value,required id,})async{
     try{
-      await dio.put(editUrl,data: value?.toJson());
+      await dio.put('https://65618241dcd355c08323e66b.mockapi.io/notes/$id',data: value.toJson());
     }catch (e){
       throw Exception(e);
     }
