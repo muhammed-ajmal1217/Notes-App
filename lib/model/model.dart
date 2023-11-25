@@ -4,7 +4,7 @@ class NoteModel{
   String? description;
 
   NoteModel({
-    required this.id,
+   this.id,
     this.title,
     this.description,
   });
@@ -15,5 +15,13 @@ class NoteModel{
       title: json['title'],
       description: json['description']
     );
+  }
+
+  Map<String,dynamic> toJson(){
+    final Map<String,dynamic> data = new Map<String,dynamic>();
+    data["title"]=this.title;
+    data["description"]=this.description;
+    data["id"]=this.id;
+    return data;
   }
 }

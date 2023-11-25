@@ -24,4 +24,28 @@ class ApiSercice {
       throw Exception('Failed to load notes: $error');
     }
   }
+
+  createNotes(NoteModel value)async{
+    try {
+      await dio.post(endpointUrl,data: value.toJson());
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+  deleteNotes({required id})async{
+    var deleteUrl = 'https://65618241dcd355c08323e66b.mockapi.io/notes/$id';
+    try{
+      await dio.delete(deleteUrl);
+    }catch (e){
+      throw Exception(e);
+    }
+  }
+  editNotes({NoteModel? value,required id,})async{
+    var editUrl = 'https://65618241dcd355c08323e66b.mockapi.io/notes/$id';
+    try{
+      await dio.put(editUrl,data: value?.toJson());
+    }catch (e){
+      throw Exception(e);
+    }
+  }
 }
