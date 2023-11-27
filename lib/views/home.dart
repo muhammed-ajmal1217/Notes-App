@@ -16,15 +16,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  
-
-
   @override
   void initState() {
-    final homeProvider=Provider.of<HomeProvider>(context,listen: false);
     super.initState();
-    homeProvider.loadNotes();
+    Provider.of<HomeProvider>(context, listen: false).loadNotes();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,11 +31,10 @@ class _HomePageState extends State<HomePage> {
           style: GoogleFonts.kanit(fontSize: 25),
         ),
       ),
-      body: Consumer<HomeProvider>(
-        builder: (context, homeProvider, child) => 
-         Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: FutureBuilder(
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Consumer<HomeProvider>(
+          builder: (context, homeProvider, child) => FutureBuilder(
             future: ApiSercice().getNotes(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
@@ -55,11 +51,12 @@ class _HomePageState extends State<HomePage> {
                       color: const Color.fromARGB(255, 24, 24, 24),
                       child: Container(
                         decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.white,
-                              width: 0.1,
-                            ),
-                            borderRadius: BorderRadius.circular(15)),
+                          border: Border.all(
+                            color: Colors.white,
+                            width: 0.1,
+                          ),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Column(
@@ -73,22 +70,26 @@ class _HomePageState extends State<HomePage> {
                                         title: Text(
                                           'Title:',
                                           style: GoogleFonts.quicksand(
-                                              fontSize: 17,
-                                              fontWeight: FontWeight.w300),
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w300,
+                                          ),
                                         ),
                                         subtitle: Text(
-                                          data.title ?? 'data is here',style: GoogleFonts.quicksand(),
+                                          data.title ?? 'data is here',
+                                          style: GoogleFonts.quicksand(),
                                         ),
                                       ),
                                       ListTile(
                                         title: Text(
                                           'Description:',
                                           style: GoogleFonts.quicksand(
-                                              fontSize: 17,
-                                              fontWeight: FontWeight.w300),
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w300,
+                                          ),
                                         ),
                                         subtitle: Text(
-                                          data.description ?? 'data is here',style: GoogleFonts.quicksand(),
+                                          data.description ?? 'data is here',
+                                          style: GoogleFonts.quicksand(),
                                         ),
                                       ),
                                     ],
@@ -106,19 +107,33 @@ class _HomePageState extends State<HomePage> {
                                             id: data.id!,
                                             title: data.title!,
                                             description: data.description!,
-                                            onSave: () { 
-                                                homeProvider.loadNotes(); 
+                                            onSave: () {
+                                              homeProvider.loadNotes();
                                             },
                                           ),
                                         ),
                                       );
                                     },
-                                    child: Icon(Icons.edit,color: Colors.grey,),
+                                    child: Icon(Icons.edit, color: Colors.grey),
                                   ),
                                   SizedBox(width: 10),
                                   InkWell(
-                                      onTap: () => homeProvider.deleteNote(id: data.id),
-                                      child: Icon(Icons.delete,color: Colors.grey,)),
+                                    onTap: () =>
+                                        showDialog(context: context, builder: (context) => AlertDialog(
+                                          title: Text('Delete..?'),
+                                          actions: [
+                                            TextButton(onPressed: (){
+                                              homeProvider.deleteNote(id: data.id);
+                                              Navigator.pop(context);
+                                            }, child: Text('Yes')),
+                                            TextButton(onPressed: (){
+                                              Navigator.pop(context);
+                                            }, child: Text('No')),
+                                          ],
+                                          
+                                        ),),
+                                    child: Icon(Icons.delete, color: Colors.grey),
+                                  ),
                                 ],
                               )
                             ],
@@ -150,7 +165,7 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Color.fromARGB(255, 255, 186, 59),
         shape: CircleBorder(),
         elevation: 4,
-        child: Icon(Icons.add,color: Colors.black,),
+        child: Icon(Icons.add, color: Colors.black),
       ),
     );
   }

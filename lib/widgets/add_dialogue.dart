@@ -2,14 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:notetaker/controller/home_provider.dart';
 import 'package:provider/provider.dart';
 
-class DialoguePage extends StatefulWidget {
+class DialoguePage extends StatelessWidget {
   const DialoguePage({super.key});
 
-  @override
-  State<DialoguePage> createState() => _DialoguePageState();
-}
-
-class _DialoguePageState extends State<DialoguePage> {
   @override
   Widget build(BuildContext context) {
     return Consumer<HomeProvider>(
